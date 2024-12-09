@@ -1,0 +1,49 @@
+public class SensitiveDataHandler {
+
+    // Method to create a User and log sensitive information
+    public static void createUser(String username, String email, String password) {
+        User newUser = new User(
+            Username = username,
+            Email = email,
+            Alias = username.substring(0, 5),
+            ProfileId = [SELECT Id FROM Profile WHERE Name = 'Standard User' LIMIT 1].Id,
+            Password = password,
+            IsActive = true
+        );
+
+        try {
+            insert newUser;
+
+            // Logging sensitive information
+            System.debug('User created: ' + newUser); // This logs the entire user object including sensitive fields
+        } catch (DmlException e) {
+            System.debug('Error creating user: ' + e.getMessage());
+        }
+    }
+
+    // Method to get user information and log sensitive details
+    public static User getUserDetails(Id userId) {
+        User user = [SELECT Id, Email, Password FROM User WHERE Id = :userId];
+
+        // Logging sensitive information
+        System.debug('User Details: ' + user.Email + ', Password: ' + user.Password); // Exposing sensitive data in logs
+
+        return user;
+    }
+
+    // Method to update user email
+    public static void updateUserEmail(Id userId, String newEmail) {
+        User userToUpdate = [SELECT Id, Email FROM User WHERE Id = :userId];
+
+        userToUpdate.Email = newEmail;
+
+        try {
+            update userToUpdate;
+
+            // Logging the updated email
+            System.debug('Updated User Email: ' + userToUpdate.Email); // This may expose sensitive information
+        } catch (DmlException e) {
+            System.debug('Error updating user email: ' + e.getMessage());
+        }
+    }
+}
