@@ -1,0 +1,25 @@
+@isTest(seeAllData=true)
+public class FailingClassTestR {
+    
+    @isTest
+    static void testFailMethodWithData() {
+        // Arrange: Fetch existing data from the org
+        Account existingAccount = [SELECT Id FROM Account LIMIT 1]; // Assuming there is at least one Account record
+
+        // Create an instance of FailingClass
+        FailingClass failingInstance = new FailingClass();
+        
+        // Act & Assert
+        try {
+            failingInstance.failMethod();
+            // If no exception is thrown, the test fails
+            System.assert(false, 'Expected CustomException was not thrown.');
+        } catch (FailingClass.CustomException e) {
+            // Test passes as the expected exception was caught
+            System.assertEquals('This is a forced failure for testing purposes.', e.getMessage());
+        }
+        
+        // Optionally, you can add additional checks using the existing data
+        System.assertNotEquals(null, existingAccount, 'Expected to find an existing Account.');
+    }
+}
