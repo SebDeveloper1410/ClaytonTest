@@ -13,7 +13,7 @@ public class FailingClassTest {
             System.assert(false, 'Expected CustomException was not thrown.');
         } catch (FailingClass.CustomException e) {
             // Test passes as the expected exception was caught
-            System.assertEquals('This is a forced failure for testing purposes.', e.getMessage());
+            System.assertEquals('This is a forced failure for testing purposes.', e.getMessage(), 'This is a forced failure for testing purposes.');
         }
     }
 }
