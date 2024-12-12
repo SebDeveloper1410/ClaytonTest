@@ -1,3 +1,4 @@
+//adding comments
 public class InsecureExample {
     // This class does not enforce sharing rules
     // and allows access to all records without any checks.
