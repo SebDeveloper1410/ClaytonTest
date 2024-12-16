@@ -7,6 +7,7 @@ public class InsecureExample {
         return [SELECT Id, Name FROM Account];
     }
 
+    /* Updates the name of an account in the database without checking if the user has permission to change */
     public void updateAccountName(Id accountId, String newName) {
         // This method updates the name of an account without checking if the user has permission
         Account acc = [SELECT Id, Name FROM Account WHERE Id = :accountId LIMIT 1];
